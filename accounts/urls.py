@@ -13,5 +13,5 @@ urlpatterns = [
     path('api/logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),
 
     path('nse_demo/', views.nse_demo, name = 'nse_demo'),
-    path('home/', views.home, name = 'home'),
+    path('/', views.home, name = 'home'),
 ]
