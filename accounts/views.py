@@ -40,14 +40,15 @@ class LoginAPI(KnoxLoginView):
 
 import requests
 def nse_demo(request):
-    print("NISHANT")
     url = 'https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY'
     headers = {'user-agent': 'my-app/0.0.1'}
     response = requests.get(url, headers=headers)
     data = response.json()
     timestamp = data['records']['timestamp']
-    print(timestamp)
-    return render(request, 'PcrStocks.html', {'timestamp': timestamp})
+    summ = data['filtered']['CE']['totOI']
+    summ2 = data['filtered']['PE']['totOI']
+    pcr = summ2 / summ
+    return render(request, 'PcrStocks.html', {'timestamp': timestamp, 'pcr': pcr})
 
 def home(request):
     return render(request, 'home.html')
