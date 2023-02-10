@@ -90,17 +90,17 @@ DATABASES = {
     }
 }
 
-DATABASES = {
-    'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'c6tzlD1JK1B97xAK1c1A',
-        'HOST': 'containers-us-west-27.railway.app',
-        'PORT': '6809',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         #'ENGINE': 'django.db.backends.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'c6tzlD1JK1B97xAK1c1A',
+#         'HOST': 'containers-us-west-27.railway.app',
+#         'PORT': '6809',
+#     }
+# }
 
 
 # Password validation
