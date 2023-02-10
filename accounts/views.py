@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -52,3 +54,48 @@ def nse_demo(request):
 
 def home(request):
     return render(request, 'home.html')
+
+
+@api_view(['GET'])
+def pcrstockput(request):
+
+    baseurl = "https://www.nseindia.com/"
+    headers =  {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, '
+                        'like Gecko) '
+                        'Chrome/80.0.3987.149 Safari/537.36',
+        'accept-language': 'en,gu;q=0.9,hi;q=0.8', 'accept-encoding': 'gzip, deflate, br'}
+    session = requests.Session()
+    req = session.get(baseurl, headers=headers, timeout=5)
+    cookies = dict(req.cookies)
+    stock = 'IPCALAB'
+    
+    url = 'https://www.nseindia.com/api/option-chain-equities?symbol=' + stock
+
+    response = requests.get(url, headers=headers, timeout=5, cookies=cookies)
+    data = response.text
+    api_data = json.loads(data)
+    time_stamp = api_data['records']['timestamp']
+    livePrice = api_data['records']['underlyingValue']
+    filteredData = api_data['filtered']['data']
+
+    summ = api_data['filtered']['CE']['totOI']
+    summ2 = api_data['filtered']['PE']['totOI']
+    pcr = '%.2f'% (summ2 / summ)
+
+    down_price = []
+    down__price = api_data['filtered']['data']
+    for down in down__price:
+        if down['strikePrice'] <= livePrice:
+            down_price.append(down)
+    
+    up_price = []
+    up__price = api_data['filtered']['data']
+    for up in up__price:
+        if up['strikePrice'] >= livePrice:
+            up_price.append(up) 
+
+    # livePrice = { 'livePrice': livePrice}
+
+    main_data = {"time_stamp": time_stamp,"livePrice": livePrice, 'pcr':pcr, 'down_price':down_price, 'up_price': up_price}
+    return Response({ 'status' : True, 'msg' : 'success data', 'data' : main_data })
+
