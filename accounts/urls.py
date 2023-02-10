@@ -14,4 +14,6 @@ urlpatterns = [
 
     path('nse_demo/', views.nse_demo, name = 'nse_demo'),
     path('', views.home, name = 'home'),
+    path('pcrstock/', views.pcrstockput, name = 'pcrstock'),
+
 ]
